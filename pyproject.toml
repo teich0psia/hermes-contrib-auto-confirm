@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hermes-contrib-auto-confirm"
+version = "0.1.0"
+description = "Hermes Agent plugin: pre-approve data-training-tier model switches once explicitly opted in (fork-free)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "teich0psia" }]
+keywords = ["hermes-agent", "plugin", "contributor", "model-switch", "confirmation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+# NOTE: no runtime dependency on hermes-agent — it is the HOST that loads this
+# plugin, not a package dependency. The plugin imports host internals lazily.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[project.entry-points."hermes_agent.plugins"]
+# The loader (hermes_cli/plugins.py) imports this module and calls its
+# register(ctx). Value is the importable module that defines register().
+contrib_auto_confirm = "hermes_contrib_auto_confirm"
+
+[project.urls]
+Homepage = "https://github.com/teich0psia/hermes-contrib-auto-confirm"
+Repository = "https://github.com/teich0psia/hermes-contrib-auto-confirm"
+Issues = "https://github.com/teich0psia/hermes-contrib-auto-confirm/issues"
+Changelog = "https://github.com/teich0psia/hermes-contrib-auto-confirm/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+packages = ["hermes_contrib_auto_confirm"]
+
+[tool.setuptools.package-data]
+hermes_contrib_auto_confirm = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
