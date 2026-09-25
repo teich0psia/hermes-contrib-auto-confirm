@@ -78,10 +78,12 @@ def _install_wrap() -> bool:
         return True
 
     @functools.wraps(original)
-    def auto_confirm(model_name, *, provider=None, base_url=None, api_key=None, model_info=None):
-        result = original(
-            model_name, provider=provider, base_url=base_url, api_key=api_key, model_info=model_info
-        )
+    def auto_confirm(model_name, *, provider=None, base_url=None, api_key=None,
+                     model_info=None, selection_context=None):
+        kwargs = dict(provider=provider, base_url=base_url, api_key=api_key, model_info=model_info)
+        if selection_context is not None:
+            kwargs["selection_context"] = selection_context
+        result = original(model_name, **kwargs)
         if result is None or getattr(result, "kind", "") != "data_policy":
             return result
         try:

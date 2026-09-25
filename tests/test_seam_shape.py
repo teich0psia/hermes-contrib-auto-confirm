@@ -43,7 +43,7 @@ def test_guard_function_signature():
     assert fns, "combined_selection_warning is gone"
     fn = fns[0]
     kwonly = {a.arg for a in fn.args.kwonlyargs}
-    assert {"provider", "base_url", "api_key", "model_info"} <= kwonly
+    assert {"provider", "base_url", "api_key", "model_info", "selection_context"} <= kwonly
 
 
 def test_selection_warning_has_kind():

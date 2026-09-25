@@ -8,7 +8,14 @@
 
 ## Install
 
-Install the wheel from the latest [GitHub Release](https://github.com/teich0psia/hermes-contrib-auto-confirm/releases) **into the Python environment that runs your gateway** (venv python, not system python):
+For a PM-managed Hermes install, use its plugin installer so future environment rebuilds keep the plugin. Review and pin the commit you want to run:
+
+```bash
+hermes plugins install https://github.com/teich0psia/hermes-contrib-auto-confirm.git --ref <reviewed-commit> --enable
+hermes config set contrib_auto_confirm true
+```
+
+For older Hermes installations that run directly from a stable checkout venv, install the wheel from the latest [GitHub Release](https://github.com/teich0psia/hermes-contrib-auto-confirm/releases) **into the Python environment that runs your gateway** (venv python, not system python):
 
 ```bash
 # Linux
@@ -29,7 +36,7 @@ Then restart the gateway process that serves your client:
 ```bash
 hermes gateway restart
 # or, for a systemd-served remote backend:
-systemctl --user restart hermes-desktop-http.service
+systemctl --user restart hermes-gateway.service
 ```
 
 Verify: the gateway log shows `contrib-auto-confirm: installed`, and picking a `-contributor` model no longer pops a confirmation.
@@ -57,7 +64,7 @@ hermes config set contrib_auto_confirm false
 
 ## Compatibility
 
-Developed against Hermes Agent `v0.21.0`. `tests/test_seam_shape.py` pins the wrapped seam by AST against a local Hermes checkout (`HERMES_HOME`) and fails loudly on drift instead of silently changing behavior.
+Verified against Hermes Agent `v0.21.5` (including `selection_context` forwarding). `tests/test_seam_shape.py` pins the wrapped seam by AST against a local Hermes checkout (`HERMES_HOME`) and fails loudly on drift instead of silently changing behavior.
 
 ## Development
 

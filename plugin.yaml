@@ -1,0 +1,4 @@
+name: contrib-auto-confirm
+version: 0.1.0
+description: Pre-approve data-training-tier model switches once explicitly opted in (no Hermes files modified)
+kind: standalone

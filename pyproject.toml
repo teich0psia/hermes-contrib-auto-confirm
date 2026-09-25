@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
@@ -34,7 +35,7 @@ dev = ["pytest>=7", "ruff>=0.4"]
 [project.entry-points."hermes_agent.plugins"]
 # The loader (hermes_cli/plugins.py) imports this module and calls its
 # register(ctx). Value is the importable module that defines register().
-contrib_auto_confirm = "hermes_contrib_auto_confirm"
+contrib-auto-confirm = "hermes_contrib_auto_confirm"
 
 [project.urls]
 Homepage = "https://github.com/teich0psia/hermes-contrib-auto-confirm"

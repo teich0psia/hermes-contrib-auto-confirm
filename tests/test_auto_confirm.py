@@ -73,6 +73,32 @@ def test_cost_guard_never_suppressed(monkeypatch, fresh_guard):
     assert guards.combined_selection_warning("expensive-model") is not None
 
 
+def test_selection_context_is_forwarded(monkeypatch, fresh_guard):
+    seen = []
+    context = object()
+
+    def guard(model_name, **kwargs):
+        seen.append(kwargs)
+        return _warning("cost")
+
+    monkeypatch.setattr(guards, "combined_selection_warning", guard)
+    monkeypatch.setattr(plugin, "_read_opt_in", lambda: True)
+    plugin.register(ctx=types.SimpleNamespace())
+    result = guards.combined_selection_warning("expensive-model", selection_context=context)
+    assert result is not None
+    assert seen[0]["selection_context"] is context
+
+
+def test_old_guard_without_context_still_works(monkeypatch, fresh_guard):
+    def guard(model_name, *, provider=None, base_url=None, api_key=None, model_info=None):
+        return _warning("data_policy")
+
+    monkeypatch.setattr(guards, "combined_selection_warning", guard)
+    monkeypatch.setattr(plugin, "_read_opt_in", lambda: True)
+    plugin.register(ctx=types.SimpleNamespace())
+    assert guards.combined_selection_warning("contributor-model") is None
+
+
 def test_multiple_kind_never_suppressed(monkeypatch, fresh_guard):
     monkeypatch.setattr(
         guards, "combined_selection_warning", lambda *a, **k: _warning("multiple")
